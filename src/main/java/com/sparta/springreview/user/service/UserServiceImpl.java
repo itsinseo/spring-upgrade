@@ -1,6 +1,7 @@
 package com.sparta.springreview.user.service;
 
 import com.sparta.springreview.response.ApiResponseDto;
+import com.sparta.springreview.user.dto.LoginRequestDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.entity.User;
 import com.sparta.springreview.user.repository.UserRepository;
@@ -37,5 +38,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return new ApiResponseDto("회원가입 성공", HttpStatus.OK.value());
+    }
+
+    @Override
+    public ApiResponseDto signin(LoginRequestDto loginRequestDto) {
+        String username = loginRequestDto.getUsername();
+        String password = loginRequestDto.getPassword();
+
+        //사용자 확인 (username 이 없는 경우)
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+
+        //비밀번호 확인 (password 가 다른 경우)
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new ApiResponseDto("로그인 성공", HttpStatus.OK.value());
     }
 }
