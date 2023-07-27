@@ -1,6 +1,5 @@
 package com.sparta.springreview.user.controller;
 
-import com.sparta.springreview.jwt.JwtUtil;
 import com.sparta.springreview.response.ApiResponseDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 
     private final UserService userService;
-    private final JwtUtil jwtUtil;
+//    private final JwtUtil jwtUtil;
 
     @ResponseBody
     @PostMapping("/signup")
@@ -44,7 +43,7 @@ public class UserController {
         } catch (IllegalArgumentException e) { // 중복 닉네임 예외처리
             return ResponseEntity.badRequest().body(new ApiResponseDto("회원가입 오류: " + e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         } catch (Exception e) { // 서버 예외처리(코드 잘못 작성 등)
-            return ResponseEntity.badRequest().body(new ApiResponseDto("서버 오류: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+            return ResponseEntity.internalServerError().body(new ApiResponseDto("서버 오류: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 

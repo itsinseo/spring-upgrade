@@ -1,12 +1,13 @@
 package com.sparta.springreview.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponseDto {
-    private final String message;
-    private final Integer statusCode;
-
+    private String message;
+    private Integer statusCode;
 }
