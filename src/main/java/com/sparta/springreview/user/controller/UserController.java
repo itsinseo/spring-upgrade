@@ -5,6 +5,7 @@ import com.sparta.springreview.response.ApiResponseDto;
 import com.sparta.springreview.user.dto.LoginRequestDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,7 +59,11 @@ public class UserController {
             ApiResponseDto apiResponseDto = userService.signin(loginRequestDto);
 
             //JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
-            response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(loginRequestDto.getUsername(), loginRequestDto.getRole()));
+            String token = jwtUtil.createToken(loginRequestDto.getUsername(), loginRequestDto.getRole());
+
+            Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, UriEncoder.encode(token));
+            cookie.setPath("/");
+            response.addCookie(cookie);
 
             return ResponseEntity.ok().body(apiResponseDto);
         } catch (IllegalArgumentException e) { // 로그인 정보 불일치 예외처리
