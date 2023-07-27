@@ -2,11 +2,8 @@ package com.sparta.springreview.user.controller;
 
 import com.sparta.springreview.jwt.JwtUtil;
 import com.sparta.springreview.response.ApiResponseDto;
-import com.sparta.springreview.user.dto.LoginRequestDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.yaml.snakeyaml.util.UriEncoder;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,24 +48,24 @@ public class UserController {
         }
     }
 
-    @ResponseBody
-    @PostMapping("/signin")
-    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        try {
-            ApiResponseDto apiResponseDto = userService.signin(loginRequestDto);
-
-            //JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
-            String token = jwtUtil.createToken(loginRequestDto.getUsername(), loginRequestDto.getRole());
-
-            Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, UriEncoder.encode(token));
-            cookie.setPath("/");
-            response.addCookie(cookie);
-
-            return ResponseEntity.ok().body(apiResponseDto);
-        } catch (IllegalArgumentException e) { // 로그인 정보 불일치 예외처리
-            return ResponseEntity.badRequest().body(new ApiResponseDto("회원가입 오류: " + e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        } catch (Exception e) { // 서버 예외처리(코드 잘못 작성 등)
-            return ResponseEntity.badRequest().body(new ApiResponseDto("서버 오류: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
-    }
+//    @ResponseBody
+//    @PostMapping("/signin")
+//    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+//        try {
+//            ApiResponseDto apiResponseDto = userService.signin(loginRequestDto);
+//
+//            //JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
+//            String token = jwtUtil.createToken(loginRequestDto.getUsername(), loginRequestDto.getRole());
+//
+//            Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, UriEncoder.encode(token));
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+//
+//            return ResponseEntity.ok().body(apiResponseDto);
+//        } catch (IllegalArgumentException e) { // 로그인 정보 불일치 예외처리
+//            return ResponseEntity.badRequest().body(new ApiResponseDto("회원가입 오류: " + e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+//        } catch (Exception e) { // 서버 예외처리(코드 잘못 작성 등)
+//            return ResponseEntity.badRequest().body(new ApiResponseDto("서버 오류: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+//        }
+//    }
 }

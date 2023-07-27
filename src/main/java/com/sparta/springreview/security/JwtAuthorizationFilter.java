@@ -1,8 +1,8 @@
-package com.sparta.springreview.jwt;
+package com.sparta.springreview.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.springreview.jwt.JwtUtil;
 import com.sparta.springreview.response.ApiResponseDto;
-import com.sparta.springreview.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

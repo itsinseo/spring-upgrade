@@ -1,7 +1,8 @@
 package com.sparta.springreview.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.springreview.jwt.JwtAuthorizationFilter;
+import com.sparta.springreview.security.JwtAuthenticationFilter;
+import com.sparta.springreview.security.JwtAuthorizationFilter;
 import com.sparta.springreview.jwt.JwtUtil;
 import com.sparta.springreview.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationConfiguration authenticationConfiguration;
     private final ObjectMapper objectMapper;
 
     @Bean
@@ -41,6 +43,13 @@ public class WebSecurityConfig {
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService, objectMapper);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
+        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+        return filter;
     }
 
     @Bean
@@ -61,7 +70,8 @@ public class WebSecurityConfig {
         );
 
         // 필터 관리
-        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
