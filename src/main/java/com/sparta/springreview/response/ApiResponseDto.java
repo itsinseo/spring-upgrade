@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponseDto {
+public class ApiResponseDto implements ResponseDto {
     private String message;
     private Integer statusCode;
 }

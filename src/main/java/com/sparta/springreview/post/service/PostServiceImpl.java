@@ -1,7 +1,9 @@
 package com.sparta.springreview.post.service;
 
+import com.sparta.springreview.post.dto.PostDetailResponseDto;
+import com.sparta.springreview.post.dto.PostListResponseDto;
 import com.sparta.springreview.post.dto.PostRequestDto;
-import com.sparta.springreview.post.dto.PostResponseDto;
+import com.sparta.springreview.post.dto.PostSimpleResponseDto;
 import com.sparta.springreview.post.entity.Post;
 import com.sparta.springreview.post.repository.PostRepository;
 import com.sparta.springreview.user.entity.User;
@@ -17,15 +19,27 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public List<PostResponseDto> getAllPosts() {
+    public PostListResponseDto getAllPosts() {
         List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
-        return postList.stream().map(PostResponseDto::new).toList();
+        return new PostListResponseDto(postList.stream().map(PostSimpleResponseDto::new).toList());
     }
 
     @Override
-    public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
+    public PostSimpleResponseDto createPost(PostRequestDto postRequestDto, User user) {
         Post post = new Post(postRequestDto.getTitle(), postRequestDto.getContent(), user);
         postRepository.save(post);
-        return new PostResponseDto(post);
+        return new PostSimpleResponseDto(post);
+    }
+
+    @Override
+    public PostDetailResponseDto getOnePost(Long postId) {
+        Post post = findPost(postId);
+        return new PostDetailResponseDto(post);
+    }
+
+    public Post findPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() ->
+                new IllegalArgumentException("해당 ID의 게시글이 존재하지 않습니다.")
+        );
     }
 }

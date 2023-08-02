@@ -1,6 +1,7 @@
 package com.sparta.springreview.user.controller;
 
 import com.sparta.springreview.response.ApiResponseDto;
+import com.sparta.springreview.response.ResponseDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto, BindingResult bindingResult) {
         // 회원가입 닉네임, 비밀번호 패턴 예외처리
         if (bindingResult.hasErrors()) {
             StringBuilder stringBuilder = new StringBuilder();

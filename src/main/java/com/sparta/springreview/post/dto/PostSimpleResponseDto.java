@@ -1,6 +1,7 @@
 package com.sparta.springreview.post.dto;
 
 import com.sparta.springreview.post.entity.Post;
+import com.sparta.springreview.response.ResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,12 +9,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class PostResponseDto {
+public class PostSimpleResponseDto implements ResponseDto {
     private String title;
     private String nickname;
     private LocalDateTime createdAt;
 
-    public PostResponseDto(Post post) {
+    public PostSimpleResponseDto(Post post) {
         this.title = post.getTitle();
         this.nickname = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
