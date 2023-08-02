@@ -67,6 +67,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/post/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/comment/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

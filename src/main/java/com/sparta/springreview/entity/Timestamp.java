@@ -16,10 +16,10 @@ public abstract class Timestamp {
     @CreatedDate
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    public LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt;
 }
