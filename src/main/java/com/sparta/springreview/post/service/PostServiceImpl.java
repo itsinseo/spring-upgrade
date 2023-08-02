@@ -55,4 +55,9 @@ public class PostServiceImpl implements PostService {
         entityManager.flush();
         return new PostDetailResponseDto(post);
     }
+
+    @Override
+    public void deletePost(Post post) {
+        postRepository.delete(post);
+    }
 }

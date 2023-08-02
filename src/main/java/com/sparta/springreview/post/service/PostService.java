@@ -47,4 +47,11 @@ public interface PostService {
      * @return 수정된 게시글
      */
     PostDetailResponseDto updatePost(Post post, PostRequestDto postRequestDto);
+
+    /**
+     * 게시글 삭제
+     *
+     * @param post 삭제할 게시글
+     */
+    void deletePost(Post post);
 }

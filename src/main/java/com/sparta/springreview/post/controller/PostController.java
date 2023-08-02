@@ -59,4 +59,19 @@ public class PostController {
             );
         }
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<ResponseDto> deletePost(@PathVariable Long postId) {
+        try {
+            Post post = postService.findPost(postId);
+            postService.deletePost(post);
+            return ResponseEntity.ok().body(
+                    new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value())
+            );
+        } catch (IllegalArgumentException | RejectedExecutionException e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value())
+            );
+        }
+    }
 }

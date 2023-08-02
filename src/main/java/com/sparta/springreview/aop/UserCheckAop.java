@@ -21,7 +21,11 @@ public class UserCheckAop {
     private void updatePost() {
     }
 
-    @Around("updatePost()")
+    @Pointcut("execution(* com.sparta.springreview.post.service.PostService.deletePost(..))")
+    private void deletePost() {
+    }
+
+    @Around("updatePost() || deletePost()")
     public Object executePostUserCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         Post post = (Post) joinPoint.getArgs()[0];
 
@@ -31,7 +35,7 @@ public class UserCheckAop {
             User user = userDetails.getUser();
 
             if (!post.getUser().equals(user)) {
-                throw new RejectedExecutionException("작성자만 게시글을 수정할 수 있습니다.");
+                throw new RejectedExecutionException("작성자만 게시글을 수정/삭제할 수 있습니다.");
             }
         }
         return joinPoint.proceed();
