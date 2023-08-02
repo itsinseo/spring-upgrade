@@ -29,4 +29,12 @@ public class Post extends Timestamp {
         this.content = content;
         this.user = user;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -5,18 +5,18 @@ import com.sparta.springreview.response.ResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 public class PostSimpleResponseDto implements ResponseDto {
     private String title;
     private String nickname;
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     public PostSimpleResponseDto(Post post) {
         this.title = post.getTitle();
         this.nickname = post.getUser().getUsername();
-        this.createdAt = post.getCreatedAt();
+        this.createdAt = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

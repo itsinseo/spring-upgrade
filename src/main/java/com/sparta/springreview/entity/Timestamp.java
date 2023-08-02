@@ -3,6 +3,7 @@ package com.sparta.springreview.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public abstract class Timestamp {
     @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime createdAt;
 
-    @CreatedDate
+    @LastModifiedDate
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime modifiedAt;
