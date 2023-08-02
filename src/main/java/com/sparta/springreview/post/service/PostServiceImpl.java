@@ -41,13 +41,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post findPost(Long postId) {
-        return postRepository.findById(postId).orElseThrow(() ->
-                new IllegalArgumentException("해당 ID의 게시글이 존재하지 않습니다.")
-        );
-    }
-
-    @Override
     @Transactional
     public PostDetailResponseDto updatePost(Post post, PostRequestDto postRequestDto) {
         post.setTitle(postRequestDto.getTitle());
@@ -59,5 +52,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Post post) {
         postRepository.delete(post);
+    }
+
+    @Override
+    public Post findPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() ->
+                new IllegalArgumentException("해당 ID의 게시글이 존재하지 않습니다.")
+        );
     }
 }

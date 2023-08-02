@@ -32,14 +32,6 @@ public interface PostService {
     PostDetailResponseDto getOnePost(Long postId);
 
     /**
-     * 게시글 Entity 조회
-     *
-     * @param postId 조회할 게시글 ID
-     * @return 조회한 게시글
-     */
-    Post findPost(Long postId);
-
-    /**
      * 게시글 수정
      *
      * @param post           수정할 게시글
@@ -54,4 +46,12 @@ public interface PostService {
      * @param post 삭제할 게시글
      */
     void deletePost(Post post);
+
+    /**
+     * 게시글 Entity 조회
+     *
+     * @param postId 조회할 게시글 ID
+     * @return 조회한 게시글
+     */
+    Post findPost(Long postId);
 }
