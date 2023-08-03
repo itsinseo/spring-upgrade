@@ -48,6 +48,14 @@ public interface PostService {
     void deletePost(Post post);
 
     /**
+     * 게시글 검색
+     *
+     * @param keyword 검색할 키워드(제목)
+     * @return 검색된 게시글 목록
+     */
+    PostListResponseDto searchPost(String keyword);
+
+    /**
      * 게시글 Entity 조회
      *
      * @param postId 조회할 게시글 ID

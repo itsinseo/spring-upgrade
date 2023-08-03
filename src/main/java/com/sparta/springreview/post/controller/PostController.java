@@ -55,4 +55,10 @@ public class PostController {
                 new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value())
         );
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<PostListResponseDto> searchPost(@RequestParam String keyword) {
+        PostListResponseDto postResponseDtoList = postService.searchPost(keyword);
+        return ResponseEntity.ok().body(postResponseDtoList);
+    }
 }

@@ -55,6 +55,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostListResponseDto searchPost(String keyword) {
+        return new PostListResponseDto(
+                postRepository.search(keyword)
+                        .stream().map(PostSimpleResponseDto::new)
+                        .toList()
+        );
+    }
+
+    @Override
     public Post findPost(Long postId) {
         return postRepository.findById(postId).orElseThrow(() ->
                 new IllegalArgumentException("해당 ID의 게시글이 존재하지 않습니다.")
