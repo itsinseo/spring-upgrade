@@ -6,11 +6,9 @@ import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,17 +25,6 @@ public class UserController {
     @ResponseBody
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto, BindingResult bindingResult) {
-        // 회원가입 닉네임, 비밀번호 패턴 예외처리
-        if (bindingResult.hasErrors()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                stringBuilder.append(error.getDefaultMessage());
-                stringBuilder.append("\n");
-            }
-            String patternErrorMessage = stringBuilder.toString();
-            return ResponseEntity.badRequest().body(new ApiResponseDto(patternErrorMessage, HttpStatus.BAD_REQUEST.value()));
-        }
-
         ApiResponseDto apiResponseDto = userService.signup(signupRequestDto);
         return ResponseEntity.ok().body(apiResponseDto);
     }
