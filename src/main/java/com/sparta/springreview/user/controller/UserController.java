@@ -38,14 +38,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ApiResponseDto(patternErrorMessage, HttpStatus.BAD_REQUEST.value()));
         }
 
-        try {
-            ApiResponseDto apiResponseDto = userService.signup(signupRequestDto);
-            return ResponseEntity.ok().body(apiResponseDto);
-        } catch (IllegalArgumentException e) { // 중복 닉네임 예외처리
-            return ResponseEntity.badRequest().body(new ApiResponseDto("회원가입 오류: " + e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        } catch (Exception e) { // 서버 예외처리(코드 잘못 작성 등)
-            return ResponseEntity.internalServerError().body(new ApiResponseDto("서버 오류: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        ApiResponseDto apiResponseDto = userService.signup(signupRequestDto);
+        return ResponseEntity.ok().body(apiResponseDto);
     }
 
 //    @ResponseBody

@@ -15,8 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.RejectedExecutionException;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
@@ -38,40 +36,23 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<ResponseDto> getOnePost(@PathVariable Long postId) {
-        try {
-            PostDetailResponseDto postSimpleResponseDto = postService.getOnePost(postId);
-            return ResponseEntity.ok().body(postSimpleResponseDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(
-                    new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
+        PostDetailResponseDto postSimpleResponseDto = postService.getOnePost(postId);
+        return ResponseEntity.ok().body(postSimpleResponseDto);
     }
 
     @PutMapping("/{postId}")
     public ResponseEntity<ResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
-        try {
-            Post post = postService.findPost(postId);
-            PostDetailResponseDto postDetailResponseDto = postService.updatePost(post, postRequestDto);
-            return ResponseEntity.ok().body(postDetailResponseDto);
-        } catch (IllegalArgumentException | RejectedExecutionException e) {
-            return ResponseEntity.badRequest().body(
-                    new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value())
-            );
-        }
+        Post post = postService.findPost(postId);
+        PostDetailResponseDto postDetailResponseDto = postService.updatePost(post, postRequestDto);
+        return ResponseEntity.ok().body(postDetailResponseDto);
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<ResponseDto> deletePost(@PathVariable Long postId) {
-        try {
-            Post post = postService.findPost(postId);
-            postService.deletePost(post);
-            return ResponseEntity.ok().body(
-                    new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value())
-            );
-        } catch (IllegalArgumentException | RejectedExecutionException e) {
-            return ResponseEntity.badRequest().body(
-                    new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value())
-            );
-        }
+        Post post = postService.findPost(postId);
+        postService.deletePost(post);
+        return ResponseEntity.ok().body(
+                new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value())
+        );
     }
 }
