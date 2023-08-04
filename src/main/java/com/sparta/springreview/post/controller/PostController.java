@@ -31,14 +31,14 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<ResponseDto> createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        PostDetailResponseDto postSimpleResponseDto = postService.createPost(postRequestDto, userDetails.getUser());
-        return ResponseEntity.ok().body(postSimpleResponseDto);
+        PostDetailResponseDto postDetailResponseDto = postService.createPost(postRequestDto, userDetails.getUser());
+        return ResponseEntity.ok().body(postDetailResponseDto);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<ResponseDto> getOnePost(@PathVariable Long postId) {
-        PostDetailResponseDto postSimpleResponseDto = postService.getOnePost(postId);
-        return ResponseEntity.ok().body(postSimpleResponseDto);
+        PostDetailResponseDto postDetailResponseDto = postService.getOnePost(postId);
+        return ResponseEntity.ok().body(postDetailResponseDto);
     }
 
     @PutMapping("/{postId}")

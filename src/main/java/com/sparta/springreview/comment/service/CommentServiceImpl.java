@@ -6,7 +6,6 @@ import com.sparta.springreview.comment.entity.Comment;
 import com.sparta.springreview.comment.repository.CommentRepository;
 import com.sparta.springreview.post.entity.Post;
 import com.sparta.springreview.user.entity.User;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final EntityManager entityManager;
 
     @Override
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto, User user, Post post) {
@@ -29,7 +27,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentResponseDto updateComment(Comment comment, CommentRequestDto commentRequestDto) {
         comment.setContent(commentRequestDto.getContent());
-        entityManager.flush();
         return new CommentResponseDto(comment);
     }
 
@@ -44,6 +41,4 @@ public class CommentServiceImpl implements CommentService {
                 new IllegalArgumentException("해당 ID의 댓글이 존재하지 않습니다.")
         );
     }
-
-
 }
