@@ -5,14 +5,16 @@ import com.sparta.springreview.post.dto.PostListResponseDto;
 import com.sparta.springreview.post.dto.PostRequestDto;
 import com.sparta.springreview.post.entity.Post;
 import com.sparta.springreview.user.entity.User;
+import org.springframework.data.domain.Pageable;
 
 public interface PostService {
     /**
-     * 전체 게시글 목록 조회
+     * 페이지 전체 게시물 조회
      *
-     * @return 전체 게시글 목록
+     * @param pageable 조회할 페이지, 크기
+     * @return 조회한 게시글 목록
      */
-    PostListResponseDto getAllPosts();
+    PostListResponseDto getAllPosts(Pageable pageable);
 
     /**
      * 게시글 작성
@@ -50,10 +52,11 @@ public interface PostService {
     /**
      * 게시글 검색
      *
-     * @param keyword 검색할 키워드(제목)
+     * @param keyword  검색할 키워드(제목)
+     * @param pageable 페이징
      * @return 검색된 게시글 목록
      */
-    PostListResponseDto searchPost(String keyword);
+    PostListResponseDto searchPost(String keyword, Pageable pageable);
 
     /**
      * 게시글 Entity 조회

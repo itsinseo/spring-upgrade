@@ -2,7 +2,7 @@ package com.sparta.springreview.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springreview.jwt.JwtUtil;
-import com.sparta.springreview.user.dto.LoginRequestDto;
+import com.sparta.springreview.user.dto.SigninRequestDto;
 import com.sparta.springreview.user.entity.UserRoleEnum;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
+            SigninRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SigninRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(

@@ -9,6 +9,7 @@ import com.sparta.springreview.response.ApiResponseDto;
 import com.sparta.springreview.response.ResponseDto;
 import com.sparta.springreview.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +24,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<PostListResponseDto> getAllPosts() {
-        PostListResponseDto postResponseDtoList = postService.getAllPosts();
+    public ResponseEntity<PostListResponseDto> getAllPosts(Pageable pageable) {
+        PostListResponseDto postResponseDtoList = postService.getAllPosts(pageable);
         return ResponseEntity.ok().body(postResponseDtoList);
     }
 
@@ -57,8 +58,8 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<PostListResponseDto> searchPost(@RequestParam String keyword) {
-        PostListResponseDto postResponseDtoList = postService.searchPost(keyword);
+    public ResponseEntity<PostListResponseDto> searchPost(@RequestParam String keyword, Pageable pageable) {
+        PostListResponseDto postResponseDtoList = postService.searchPost(keyword, pageable);
         return ResponseEntity.ok().body(postResponseDtoList);
     }
 }

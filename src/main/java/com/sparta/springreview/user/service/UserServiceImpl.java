@@ -1,7 +1,7 @@
 package com.sparta.springreview.user.service;
 
 import com.sparta.springreview.response.ApiResponseDto;
-import com.sparta.springreview.user.dto.LoginRequestDto;
+import com.sparta.springreview.user.dto.SigninRequestDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.entity.User;
 import com.sparta.springreview.user.repository.UserRepository;
@@ -41,9 +41,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponseDto signin(LoginRequestDto loginRequestDto) {
-        String username = loginRequestDto.getUsername();
-        String password = loginRequestDto.getPassword();
+    public ApiResponseDto signin(SigninRequestDto signinRequestDto) {
+        String username = signinRequestDto.getUsername();
+        String password = signinRequestDto.getPassword();
 
         //사용자 확인 (username 이 없는 경우)
         User user = userRepository.findByUsername(username).orElseThrow(

@@ -7,23 +7,20 @@ import com.sparta.springreview.post.dto.PostSimpleResponseDto;
 import com.sparta.springreview.post.entity.Post;
 import com.sparta.springreview.post.repository.PostRepository;
 import com.sparta.springreview.user.entity.User;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-
     private final PostRepository postRepository;
-    private final EntityManager entityManager;
 
     @Override
-    public PostListResponseDto getAllPosts() {
-        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+    public PostListResponseDto getAllPosts(Pageable pageable) {
+        Page<Post> postList = postRepository.findAllByOrderByCreatedAtDesc(pageable);
         return new PostListResponseDto(postList.stream().map(PostSimpleResponseDto::new).toList());
     }
 
@@ -45,7 +42,6 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponseDto updatePost(Post post, PostRequestDto postRequestDto) {
         post.setTitle(postRequestDto.getTitle());
         post.setContent(postRequestDto.getContent());
-        entityManager.flush();
         return new PostDetailResponseDto(post);
     }
 
@@ -55,9 +51,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostListResponseDto searchPost(String keyword) {
+    public PostListResponseDto searchPost(String keyword, Pageable pageable) {
         return new PostListResponseDto(
-                postRepository.search(keyword)
+                postRepository.search(keyword, pageable)
                         .stream().map(PostSimpleResponseDto::new)
                         .toList()
         );
