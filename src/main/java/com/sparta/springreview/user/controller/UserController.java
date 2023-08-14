@@ -4,17 +4,20 @@ import com.sparta.springreview.response.ApiResponseDto;
 import com.sparta.springreview.response.ResponseDto;
 import com.sparta.springreview.user.dto.SignupRequestDto;
 import com.sparta.springreview.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@Tag(name = "User Controller", description = "유저 관련 API 입니다.")
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
@@ -22,6 +25,11 @@ public class UserController {
     private final UserService userService;
 //    private final JwtUtil jwtUtil;
 
+    @Operation(summary = "회원가입", description = "회원가입을 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "bad_request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class)))
+    })
     @ResponseBody
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto, BindingResult bindingResult) {

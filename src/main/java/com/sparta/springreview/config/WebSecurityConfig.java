@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/post/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/comment/**").permitAll()
+                        .requestMatchers("/swagger/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
